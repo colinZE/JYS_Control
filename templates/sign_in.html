@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../static/css/bootstrap.min.css">
+    <title>注 册</title>
+    <style>
+        body{
+            background-color: #F0F0F0;
+            margin-TOP:100PX;
+        }
+        .d1{
+            margin-left: 40%;
+            width: 20em;
+        }
+        .pr{ position:relative;}
+        .input-group .alert_text{ width:1px; height:34px; line-height:34px; color:red; position:absolute; right:-10px; top:0; white-space:nowrap;}
+    </style>
+</head>
+<body>
+    <!--下面是用户名输入框-->
+    <div class="input-group pr d1">
+        <span class="input-group-addon" id="basic-addon1">@</span>
+        <input id="username" type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是密码1输入框-->
+    <div class="input-group pr d1">
+        <span class="input-group-addon" id="basic-addon1">@</span>
+        <input id="password1" type="text" class="form-control" placeholder="密码" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是密码2输入框-->
+    <div class="input-group pr d1">
+        <span class="input-group-addon" id="basic-addon1">@</span>
+        <input id="password2" type="text" class="form-control" placeholder="再次输入密码" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是部门输入框-->
+    <div class="input-group pr d1">
+        <span class="input-group-addon" id="basic-addon1">@</span>
+        <input id="department" type="text" class="form-control" placeholder="部门" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+   <!--下面是邮箱输入框-->
+    <div class="input-group pr d1">
+        <span class="input-group-addon" id="basic-addon1">@</span>
+        <input id="email" type="text" class="form-control" placeholder="邮箱" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是电话输入框-->
+    <div class="input-group pr d1">
+        <span class="input-group-addon" id="basic-addon1">@</span>
+        <input id="phone" type="text" class="form-control" placeholder="电话" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是登陆按钮,包括颜色控制-->
+    <div class="d1">
+    <button type="button" style="width:280px;" class="btn btn-primary" id="zhuce">注 册</button>
+    </div>
+    <br>
+</body>
+</html>
+<script src="../static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+
+    function getRootPath_web() {
+            //获取当前网址，如： http://localhost:8083/uimcardprj/share/meun.jsp
+            var curWwwPath = window.document.location.href;
+            //获取主机地址之后的目录，如： uimcardprj/share/meun.jsp
+            var pathName = window.document.location.pathname;
+            var pos = curWwwPath.indexOf(pathName);
+            //获取主机地址，如： http://localhost:8083
+            var localhostPaht = curWwwPath.substring(0, pos);
+            //获取带"/"的项目名，如：/uimcardprj
+            var projectName = pathName.substring(0, pathName.substr(1).indexOf('/') + 1);
+            return (localhostPaht + projectName);
+        }
+
+    $('#zhuce').click(function(){
+        $('p').addClass('hide');
+        $.ajax({
+            type: "post",
+            url:  "sign_in",
+            data: {
+                username: $('#username').val(),
+                password1: $('#password1').val(),
+                password2: $('#password2').val(),
+                department: $('#department').val(),
+                email: $('#email').val(),
+                phone: $('#phone').val()
+            },
+            dateType: 'json',
+            success: function(data){
+                var jsonData = eval("("+data+")");
+                console.log(jsonData);
+                if(jsonData.succ){
+                    window.location.href=getRootPath_web()+"/login";
+                }
+                //console.log(jsonData,typeof(jsonData));
+                for (var o in jsonData){
+                    $('#' + o).siblings('p').text(jsonData[o]);
+                    $('#' + o).siblings('p').removeClass('hide');
+                };
+            }
+        });
+    });
+
+
+</script>

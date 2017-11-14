@@ -1,0 +1,65 @@
+{% extends 'index.html' %}
+{% block breadcrumb %}
+    <li><a>资产管理</a></li>
+	<li class="active">服务器信息</li>
+{% endblock %}
+{% block Main_Content %}
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">Server Info</div>
+                            </div>
+                            <div class="title1">
+                                <a href="/data_input/server_input" class="btn btn-success" role="button">
+                                    <span class="fa fa-plus"></span> 服务器信息</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table">
+                                <thead>
+                                <tr class="active">
+
+                                    <th>IP</th>
+                                    <th>型号</th>
+                                    <th>制造商</th>
+                                    <th>SN</th>
+                                    <th>系统平台</th>
+                                    <th>系统版本</th>
+                                    <th>CPU型号</th>
+                                    <th>CPU数量</th>
+                                    <th>CPU核心数</th>
+                                    <th>内存型号</th>
+                                    <th>内存容量</th>
+                                    <th>创建时间</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in server_info_obj %}
+                                <tr>
+                                    <td><a class="asset_font" href="/data_input/server_change?server_id={{ item.id }}">{{ item.ip }}</a></td>
+                                    <td>{{ item.model }}</td>
+                                    <td>{{ item.manufacture }}</td>
+                                    <td>{{ item.sn }}</td>
+                                    <td>{{ item.os_platform }}</td>
+                                    <td>{{ item.os_version }}</td>
+                                    <td>{{ item.cpu }}</td>
+                                    <td>{{ item.cpu_physical_count }}</td>
+                                    <td>{{ item.cpu_count }}</td>
+                                    <td>{{ item.mem }}</td>
+                                    <td>{{ item.mem_val }} Gb</td>
+                                    <td>{{ item.create_at }}</td>
+                                </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css">
+    <title></title>
+    <style>
+        .body1{
+            background-color: #F0F0F0;
+            margin-TOP: 50px;
+        }
+        .d1{
+            margin-left: 30%;
+            width: 20em;
+        }
+        .pr{ position:relative;}
+        .input-group .alert_text{ width:1px; height:34px; line-height:34px; color:red; position:absolute; right:-10px; top:0; white-space:nowrap;}
+    </style>
+</head>
+<body>
+    <!--下面是IP输入框-->
+    <div class="input-group pr d1 body1">
+        <!--<span class="input-group-addon" id="basic-addon1">IP</span>-->
+        <input id="ip" type="text" class="form-control" placeholder="IP" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是型号输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1">型号</span>-->
+        <input id="model" type="text" class="form-control" placeholder="型号" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是制造商输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1">制造商</span>-->
+        <input id="manufacture" type="text" class="form-control" placeholder="制造商" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是SN号输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="sn" type="text" class="form-control" placeholder="SN号码" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是系统平台输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="os_platform" type="text" class="form-control" placeholder="系统平台" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是系统版本号输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="os_version" type="text" class="form-control" placeholder="系统版本" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是CPU型号输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="cpu" type="text" class="form-control" placeholder="CPU型号" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是CPU数量输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="cpu_physical_count" type="text" class="form-control" placeholder="CPU数量" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是CPU核心数量输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="cpu_count" type="text" class="form-control" placeholder="CPU核心数量" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是内存型号输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="mem" type="text" class="form-control" placeholder="内存型号" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是内存大小输入框-->
+    <div class="input-group pr d1">
+        <!--<span class="input-group-addon" id="basic-addon1"></span>-->
+        <input id="mem_val" type="text" class="form-control" placeholder="内存大小" aria-describedby="basic-addon1">
+        <p class="alert_text"></p>
+    </div>
+    <br>
+    <!--下面是提交按钮,包括颜色控制-->
+    <div class="d1">
+    <button type="button" style="width:280px;" class="btn btn-primary" id="tijiao">提 交</button>
+    </div>
+    <br>
+
+</body>
+</html>
+<script src="/static/js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    $('#tijiao').click(function(){
+        $('p').addClass('hide');
+        $.ajax({
+            type: "post",
+            url: "/CMDB/server_input",
+            data: {
+                ip: $('#ip').val(),
+                model: $('#model').val(),
+                manufacture: $('#manufacture').val(),
+                sn: $('#sn').val(),
+                os_platform: $('#os_platform').val(),
+                os_version: $('#os_version').val(),
+                cpu: $('#cpu').val(),
+                cpu_physical_count: $('#cpu_physical_count').val(),
+                cpu_count: $('#cpu_count').val(),
+                mem: $('#mem').val(),
+                mem_val: $('#mem_val').val()
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log("11111",data);
+                //var jsonData = eval("("+data+")");
+                //console.log(jsonData);
+                if(data.succ){
+                    alert("提交成功")
+                    $("input").val("");
+                }
+                for (var o in data){
+                    $('#' + o).siblings('p').text(data[o]);
+                    $('#' + o).siblings('p').removeClass('hide');
+                };
+            }
+        });
+    })
+</script>

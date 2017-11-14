@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Fonts -->
+    <!--<link href='http://fonts.googleapis.com/css?family=Roboto+Condensed:300,400' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Lato:300,400,700,900' rel='stylesheet' type='text/css'>-->
+    <!-- CSS Libs -->
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/animate.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/bootstrap-switch.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/checkbox3.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/dataTables.bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/select2.min.css">
+    <!-- CSS App -->
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/themes/flat-blue.css">
+    <style>
+        .alert_text{ width:1px; height:34px; line-height:34px; color:red; position:absolute; right:-10px; top:0; white-space:nowrap;}
+        .input1{  width: 45em;  }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+        <div class="side-body">
+            <div class="page-title">
+                <span class="title"></span>
+
+                <div class="description"> </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">IDC Change</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                <div class="form-group input1">
+                                    <label for="datacenter_name" class="col-sm-2 control-label">机房名称</label>
+                                    <input class="hide" id="idc_id" value="{{ idc_read_obj.id }}">
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="name" placeholder="机房名称" type="text" value="{{ idc_read_obj.name }}">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="address" class="col-sm-2 control-label">地址</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="address" placeholder="地址" type="text" value="{{ idc_read_obj.address }}">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="telphone" class="col-sm-2 control-label">联系电话</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="telphone" placeholder="联系电话" type="text" value="{{ idc_read_obj.telphone }}">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button style="width: 100px" class="btn btn-primary" id="baocun">保 存</button>
+                                    </div>
+                                    <div class="form-group input1" style="position: absolute">
+                                        <div class="col-sm-offset-2 col-sm-10" style="position:absolute;right: -150px">
+                                            <button style="width: 100px" class="btn btn-danger" id="delete">删 除</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+<script src="/static/js/jquery-3.2.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+
+
+$('#baocun').click(function(){
+    $("p").addClass("hide");
+    $.ajax({
+        type: "post",
+        url: "idc_change.html",
+        data: {
+            id: $('#idc_id').val(),
+            name: $('#name').val(),
+            address: $('#address').val(),
+            telphone: $('#telphone').val(),
+            shanchu: "0"
+        },
+        datatype: 'json',
+        success: function(data){
+            var jsonData = eval("("+data+")");
+            var idname="idc";
+            console.log("data",jsonData,"type",typeof jsonData);
+            console.log("succ_data",jsonData.succ,"type",typeof jsonData);
+            if(jsonData.succ){
+                $("p").addClass('hide');
+                localStorage.setItem('idc',$('#name').val())
+                localStorage.setItem('idc_id',$('#idc_id').val())
+                localStorage.setItem('idname', idname);
+                alert("保存成功")
+                window.close()
+            }
+            for (var o in jsonData){
+                    $('#' + o).siblings('p').text(jsonData[o]);
+                    $('#' + o).siblings('p').removeClass('hide');
+                }
+        }
+    })
+});
+
+
+    $('#delete').on("click",function(){
+        var msg = "确定要删除吗？";
+        if (confirm(msg) == true) {
+            $.ajax({
+                type: "post",
+                url: "idc_change.html",
+                data: {
+                    shanchu: "1",
+                    id: $('#idc_id').val()
+                },
+                dataType: "json",
+                success: function (data) {
+                    var idname="idc";
+                    console.log(data.succ);
+                    if(data.succ){
+                        localStorage.setItem('idc'," ");
+                        localStorage.setItem('idc_id'," ");
+                        localStorage.setItem('idname', idname);
+                        alert("删除成功");
+                        window.close();
+                    }
+                }
+            })
+        }
+    });
+
+</script>
+</body>
+</html>

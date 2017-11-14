@@ -1,0 +1,57 @@
+{% extends 'index.html' %}
+{% block breadcrumb %}
+    <li><a>资产管理</a></li>
+	<li class="active">资产信息</li>
+{% endblock %}
+{% block Main_Content %}
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">Asset Info</div>
+                            </div>
+                            <div class="title1">
+                                <a href="/data_input/asset_input" class="btn btn-success" role="button">
+                                    <span class="fa fa-plus"> </span> 资产信息</a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-hover">
+                                <thead>
+                                <tr class="info">
+                                    <th>编号</th>
+                                    <th>IP</th>
+                                    <th>设备类型</th>
+                                    <th>状态</th>
+                                    <th>机柜号</th>
+                                    <th>机柜中序号</th>
+                                    <th>机房</th>
+                                    <th>业务线</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for item in asset_info_obj %}
+                                    <tr>
+                                        <td><a class="asset_font" href="/data_input/asset_change?asset_id={{ item.id }}">{{ item.name }}</a></td>
+                                        <td>{{ item.device_ip }}</td>
+                                        <td>{{ item.device_type_id }}</td>
+                                        <td>{{ item.device_status_id }}</td>
+                                        <td>{{ item.cabinet_num }}</td>
+                                        <td>{{ item.cabinet_order }}</td>
+                                        <td>{{ item.idc_id }}</td>
+                                        <td>{{ item.bussiness_unit_id }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

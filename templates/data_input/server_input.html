@@ -1,0 +1,178 @@
+{% extends 'index.html' %}
+{% block link %}
+    <link rel="stylesheet" type="text/css" href="/static/lib/css/select2.min.css">
+{% endblock %}
+{% block breadcrumb %}
+    <li><a>资产管理</a></li>
+	<li class="active">服务器信息录入</li>
+{% endblock %}
+{% block Main_Content %}
+    <div class="container-fluid">
+        <div class="side-body">
+            <div class="page-title">
+                <span class="title"></span>
+
+                <div class="description"> </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">
+                                <div class="title">Server Input</div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-horizontal">
+                                <div class="form-group input1">
+                                    <label for="device_type" class="col-sm-2 control-label">Asset</label>
+                                    <div class="col-sm-10">
+                                        <select name="Os_platform" id="device_type_id" class="select1">
+                                            <option  value="">请选择所属资产</option>
+                                            {% for item in asset_info_obj %}
+                                                <option value="{{ item.id }}">{{ item.name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="ip" class="col-sm-2 control-label">IP</label>
+
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="ip" placeholder="IP地址" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="model" class="col-sm-2 control-label">型号</label>
+
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="model" placeholder="型号" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="manufacture" class="col-sm-2 control-label">制造商</label>
+
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="manufacture" placeholder="制造商" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="sn" class="col-sm-2 control-label">SN</label>
+
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="sn" placeholder="SN编号" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="os_platform" class="col-sm-2 control-label">系统平台 </label>
+
+                                    <div class="col-sm-10">
+                                        <select name="Os_platform" id="os_platform" class="select1">
+                                            <option  value="">请选择系统   </option>
+                                            <option  value="Linux">Linux</option>
+                                            <option  value="Windows">Windows</option>
+                                        </select>
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+
+                                <div class="form-group input1">
+                                    <label for="os_version" class="col-sm-2 control-label">系统版本 </label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="os_version" placeholder="系统版本" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="cpu" class="col-sm-2 control-label">CPU型号</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="cpu" placeholder="CPU型号" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="cpu_physical_count" class="col-sm-2 control-label vIntegerField">CPU数量</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="cpu_physical_count" placeholder="CPU数量" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="cpu_count" class="col-sm-2 control-label">CPU核心数量</label>
+                                    <div class="col-sm-10">
+                                        <input type="number" class="form-control" id="cpu_count" placeholder="CPU核心数量" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="mem" class="col-sm-2 control-label">内存型号</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="mem" placeholder="内存型号" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <label for="mem_val" class="col-sm-2 control-label">内存大小</label>
+                                    <div class="col-sm-10">
+                                        <input class="form-control" id="mem_val" placeholder="内存大小，单位为Gb" type="text">
+                                        <p class="alert_text"></p>
+                                    </div>
+                                </div>
+                                <div class="form-group input1">
+                                    <div class="col-sm-offset-2 col-sm-10">
+                                        <button style="width: 100px" class="btn btn-primary" id="tijiao">保 存</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block js %}
+<script type="text/javascript">
+    $("#tijiao").click(function(){
+        $("p").addClass("hide");
+        $.ajax({
+            type: "post",
+            url: "/data_input/server_input.html",
+            data: {
+                asset_id: $('#device_type_id').val(),
+                ip: $("#ip").val(),
+                model: $('#model').val(),
+                manufacture: $('#manufacture').val(),
+                sn: $('#sn').val(),
+                os_platform: $('#os_platform').val(),
+                os_version: $('#os_version').val(),
+                cpu: $('#cpu').val(),
+                cpu_physical_count: $('#cpu_physical_count').val(),
+                cpu_count: $('#cpu_count').val(),
+                mem: $('#mem').val(),
+                mem_val: $('#mem_val').val()
+            },
+            dataType: 'json',
+            success: function(data){
+                console.log("succ_data",data);
+                console.log("type",typeof data);
+                if(data.succ){
+                    alert("提交成功")
+                    //$("input").val("");
+                    window.location.href='/data_input/server_info'
+                }
+                for (var o in data){
+                    $('#' + o).siblings('p').text(data[o]);
+                    $('#' + o).siblings('p').removeClass('hide');
+                }
+            }
+        })
+
+    });
+</script>
+{% endblock %}
