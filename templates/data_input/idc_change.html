@@ -133,11 +133,13 @@ $('#baocun').click(function(){
                 },
                 dataType: "json",
                 success: function (data) {
-                    var idname="idc";
+                    var idname="idc_del";
+                    var id = $('#idc_id').val();
                     console.log(data.succ);
                     if(data.succ){
-                        localStorage.setItem('idc'," ");
-                        localStorage.setItem('idc_id'," ");
+                        localStorage.setItem('IDC_SS',id);
+                        localStorage.setItem('idc',"请选择机房");
+                        localStorage.setItem('idc_id',"choice");
                         localStorage.setItem('idname', idname);
                         alert("删除成功");
                         window.close();

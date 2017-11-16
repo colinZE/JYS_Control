@@ -112,11 +112,13 @@
                 },
                 dataType: "json",
                 success: function (data) {
-                    var idname="bussiness";
+                    var idname="bussiness_del";
+                    var id = $('#bussiness_id').val();
                     console.log(data.succ);
                     if(data.succ){
-                        localStorage.setItem('bussiness_unit'," ");
-                        localStorage.setItem('bussiness_id'," ");
+                        localStorage.setItem('BUSSINESS_SS',id);
+                        localStorage.setItem('bussiness_unit',"请选择业务线");
+                        localStorage.setItem('bussiness_id',"choice");
                         localStorage.setItem('idname', idname);
                         alert("删除成功");
                         window.close();

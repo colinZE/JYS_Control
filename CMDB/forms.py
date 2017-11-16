@@ -129,15 +129,22 @@ class asset_change(forms.Form):
     cabinet_order=forms.CharField(empty_value=" ",max_length=30,error_messages={"required":"请输入机柜中序号","max_length":"输入过长"})
     idc=forms.CharField(error_messages={"required":"请选择机房"})
     bussiness_unit=forms.CharField(error_messages={"required":"请选择业务线"})
+    id=forms.IntegerField()
 
     def clean(self):
         cleaned_data =self.cleaned_data
         errors = {}
+        id = cleaned_data.get('id')
+        old_idc = models.asset.objects.filter(id=id).values()[0]['idc_id']
+        old_cabinet_num = models.asset.objects.filter(id=id).values()[0]['cabinet_num']
+        old_cabinet_order = models.asset.objects.filter(id=id).values()[0]['cabinet_order']
+        old_k = str(old_idc)+"_"+old_cabinet_num+"_"+old_cabinet_order
         idc = cleaned_data.get('idc')
         cabinet_num = cleaned_data.get('cabinet_num')
         cabinet_order = cleaned_data.get('cabinet_order')
+        new_k = idc+"_"+cabinet_num+"_"+cabinet_order
         aa = models.asset.objects.filter(idc=idc,cabinet_num=cabinet_num,cabinet_order=cabinet_order)
-        if aa:
+        if aa and new_k!=old_k:
             errors['cabinet_order'] = '该机柜位置已占用'
         if len(errors) != 0:
                 raise forms.ValidationError(errors)

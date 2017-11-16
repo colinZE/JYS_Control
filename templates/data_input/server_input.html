@@ -27,7 +27,7 @@
                                 <div class="form-group input1">
                                     <label for="device_type" class="col-sm-2 control-label">Asset</label>
                                     <div class="col-sm-10">
-                                        <select name="Os_platform" id="device_type_id" class="select1">
+                                        <select name="Os_platform" id="asset_id" class="select1">
                                             <option  value="">请选择所属资产</option>
                                             {% for item in asset_info_obj %}
                                                 <option value="{{ item.id }}">{{ item.name }}</option>
@@ -144,7 +144,7 @@
             type: "post",
             url: "/data_input/server_input.html",
             data: {
-                asset_id: $('#device_type_id').val(),
+                asset_id: $('#asset_id').val(),
                 ip: $("#ip").val(),
                 model: $('#model').val(),
                 manufacture: $('#manufacture').val(),

@@ -74,12 +74,13 @@
             datatype: 'json',
             success: function(data){
                 var jsonData = eval("("+data+")");
-                console.log(jsonData,typeof jsonData)
+                console.log(jsonData,typeof jsonData);
                 if(jsonData.succ){
                     $('p').addClass('hide');
+                    var bussiness_id = jsonData.bussiness_id;
                     localStorage.setItem('bussiness_unit', $('#name').val());
-                    localStorage.setItem('bussiness_id',$('#bussiness_id').val());
-                    localStorage.setItem('idname', 'bussiness');
+                    localStorage.setItem('bussiness_id',bussiness_id);
+                    localStorage.setItem('idname', 'bussiness_input');
                     alert("保存成功");
                     window.close()
             }

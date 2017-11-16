@@ -90,12 +90,17 @@ $('#baocun').click(function(){
         datatype: 'json',
         success: function(data){
             var jsonData = eval("("+data+")");
+            var idname = "idc_input";
             console.log("data",jsonData,"type",typeof jsonData);
             console.log("succ_data",jsonData.succ,"type",typeof jsonData);
             if(jsonData.succ){
                 $("p").addClass('hide');
+                var idc_id = jsonData.idc_id;
+                localStorage.setItem('idc',$('#name').val());
+                localStorage.setItem('idc_id',idc_id);
+                localStorage.setItem('idname', idname);
                 alert("保存成功");
-                window.close()
+                window.close();
             }
             for (var o in jsonData){
                     $('#' + o).siblings('p').text(jsonData[o]);

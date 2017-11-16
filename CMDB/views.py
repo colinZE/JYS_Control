@@ -99,7 +99,7 @@ def asset_change(request):
             return HttpResponse(succ)
         else:
             data = forms.asset_change(jdata)
-            print("DATA",data)
+            # print("DATA",data)
             if data.is_valid():
                 clean_data = data.clean()
                 print("CLEANED",clean_data)
@@ -138,14 +138,23 @@ def idc_input(request):
     if request.method == 'POST':
         jdata=request.POST.dict()
         data = forms.idc_input(jdata)
-        # print("123456789",data,"type123",type(data))
+        print("123456789",data,"type123",type(data))
         if data.is_valid():
             clean_data = data.clean()
-            print('idc_input_cleandata',clean_data)
-            idc_obj = models.DataCenter(**clean_data)
-            idc_obj.save()
-            succ=json.dumps({'succ':'ok'})
-            return HttpResponse(succ)
+            print('idc_input_cleandata',clean_data,type(clean_data))
+            new_idc_name=clean_data['name']
+            try:
+                idc_name=models.DataCenter.objects.filter(name=new_idc_name).values()[0]['name']
+                error_msg={}
+                error_msg['name']="数据中心名称已存在"
+                error_msg_dic=json.dumps(error_msg,ensure_ascii=False)
+                return HttpResponse(error_msg_dic)
+            except:
+                idc_obj = models.DataCenter(**clean_data)
+                idc_obj.save()
+                idc_id = models.DataCenter.objects.filter(name=new_idc_name).values()[0]['id']
+                succ=json.dumps({'succ':'ok',"idc_id":idc_id})
+                return HttpResponse(succ)
         else:
             err = data.errors
             print("ERROR",err,"type123",type(data))
@@ -162,8 +171,10 @@ def idc_input(request):
 def idc_change(request):
     if request.method == 'POST':
         jdata=request.POST.dict()
+        id=jdata['id']
         print("JDATA",jdata,type(jdata))
         if jdata['shanchu'] == "1":
+            models.DataCenter.objects.filter(id=id).delete()
             succ=json.dumps({'succ':'ok'})
             return HttpResponse(succ)
         else:
@@ -172,7 +183,6 @@ def idc_change(request):
             if data.is_valid():
                 clean_data = data.clean()
                 print('idc_input_cleandata',clean_data)
-                id=jdata['id']
                 models.DataCenter.objects.filter(id=id).update(**clean_data)
 
                 succ=json.dumps({'succ':'ok'})
@@ -205,10 +215,19 @@ def bussiness_input(request):
         if data.is_valid():
             clean_data = data.clean()
             print("buss_clean_data",clean_data)
-            bussiness_obj = models.BusinessUnit(**clean_data)
-            bussiness_obj.save()
-            succ=json.dumps({'succ':'ok'})
-            return HttpResponse(succ)
+            new_bussiness_name=clean_data['name']
+            try:
+                bussiness_name=models.BusinessUnit.objects.filter(name=new_bussiness_name).values()[0]['name']
+                error_msg={}
+                error_msg['name']="业务线名称已存在"
+                error_msg_dic=json.dumps(error_msg,ensure_ascii=False)
+                return HttpResponse(error_msg_dic)
+            except:
+                bussiness_obj = models.BusinessUnit(**clean_data)
+                bussiness_obj.save()
+                bussiness_id = models.BusinessUnit.objects.filter(name=new_bussiness_name).values()[0]['id']
+                succ=json.dumps({'succ':'ok',"bussiness_id":bussiness_id})
+                return HttpResponse(succ)
         else:
             err = data.errors
             print("error",err)

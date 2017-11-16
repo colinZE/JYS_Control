@@ -117,41 +117,46 @@
 {% block js %}
 <script type="text/javascript">
     $('#add_idc').click(function(){
+        ss =true;
         window.open("/data_input/idc_input","_blank","width=800,height=500",scrollbars='no')
     });
     //var idc=$("#idc").find("option:selected").val()
     //var idc=$('#idc').val()
-    console.log(idc);
+    //console.log(idc);
     var ss='';
     $('#idc').change(function(){
         var idc=$('#idc').val();
-        console.info(idc);
-        ss = idc;
+        console.log("IDC_val",idc);
         if(idc=="choice"){
             $("#change_idc").css("opacity", "0.3");
             $('#change_idc').off('click');
         }else{
             $("#change_idc").css("opacity", "1");
             $('#change_idc').on('click',function(){
+                var idc=$('#idc').val();
+                ss=idc;
                 window.open("/data_input/idc_change?idc="+idc+"&idname=idc","_blank","width=800,height=500",scrollbars="no")
             })
         }
     });
 
     $('#add_bussiness').click(function(){
+        ss=true;
         window.open("/data_input/bussiness_input","_blank","width=800,height=500",scrollbars='no')
     });
 
     $('#bussiness_unit').change(function(){
         var bussiness=$('#bussiness_unit').val();
-        ss = bussiness;
         console.log("BUSSINESS_val",bussiness);
+
         if(bussiness=="choice"){
             $("#change_bussiness").css("opacity", "0.3");
             $("#change_bussiness").off("click");
         }else{
             $("#change_bussiness").css("opacity", "1");
             $("#change_bussiness").on("click",function(){
+                var bussiness=$('#bussiness_unit').val();
+                ss = bussiness;
                 window.open("/data_input/bussiness_change?bussiness="+bussiness+"&idname=bussiness","_blank","width=800,height=500",scrollbars='no')
             })
         }
@@ -172,10 +177,11 @@
 
 
     window.addEventListener("storage",function(e){
-        console.log('key:', e.key);
-        console.log('oldValue:', e.oldValue);
-        console.log('newValue:', localStorage['idc']);
-        console.log('idname', localStorage.getItem("idname"));
+        //console.log('key:', e.key);
+        //console.log('oldValue:', e.oldValue);
+        //console.log('newValue:', localStorage['idc']);
+        //console.log('idname', localStorage.getItem("idname"));
+        console.log("event_SS",ss);
         var idname = localStorage.getItem("idname");
         if(idname == 'idc'){
             if(ss != ''){
@@ -184,7 +190,6 @@
                 $("#idc").select2().val(localStorage['idc_id']).trigger("change");
                 console.info("idc_ss:" +ss);
             }
-
         }else if(idname == 'bussiness'){
             if(ss != ''){
                 $("#bussiness_unit option[value="+ss+"]").remove();
@@ -192,13 +197,31 @@
                 $("#bussiness_unit").select2().val(localStorage['bussiness_id']).trigger("change");
                 console.info("b_ss:" +ss);
             }
-        }
+        }else if(idname == 'idc_input'){
+            if(ss != ''){
+                $("#idc").append("<option value="+localStorage['idc_id']+">"+ localStorage['idc'] +"</option>");
+                $("#idc").select2().val(localStorage['idc_id']).trigger("change");
+            }
+        }else if(idname == 'bussiness_input'){
+            if(ss != ''){
+                $("#bussiness_unit").append("<option value="+localStorage['bussiness_id']+">"+ localStorage['bussiness_unit'] +"</option>");
+                $("#bussiness_unit").select2().val(localStorage['bussiness_id']).trigger("change");
+            }
+        }else if(idname == 'idc_del'){
+            console.log("111111",ss);
+            if(ss != ''){
+                console.log("222222",ss);
+                $("#idc option[value="+ss+"]").remove();
+                $("#idc").select2().val(localStorage['idc_id']).trigger("change");
+            }
+        }else if(idname == 'bussiness_del'){
+            if(ss != ''){
+                console.log("del_ss",ss);
+                $("#bussiness_unit option[value="+ss+"]").remove();
+                $("#bussiness_unit").select2().val(localStorage['bussiness_id']).trigger("change");
+            }
+        };
         ss = '';
-
-
-        // $('#idc').val(e.newValue);
-        // $('#idc').text(1);
-        // $('#idc').attr('selected', true);
     });
 
 
