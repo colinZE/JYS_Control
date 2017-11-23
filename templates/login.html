@@ -21,6 +21,7 @@
 <body>
     <!--下面是用户名输入框-->
     <div class="input-group pr d1">
+        <input class="hide" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
         <span class="input-group-addon" id="basic-addon1">@</span>
         <input id="username" type="text" class="form-control" placeholder="用户名" aria-describedby="basic-addon1">
         <p class="alert_text"></p>
@@ -71,17 +72,19 @@
         else {
             $.ajax({
                 type: "post",
-                url: "login",
+                url: "/login/",
                 data: {
-                    userName: $('#username').val(),
-                    passWord: $('#password').val()
+                    csrfmiddlewaretoken: $('#csrfmiddlewaretoken').val(),
+                    username: $('#username').val(),
+                    password: $('#password').val()
                 },
                 dataType: 'json',
                 success: function (data) {
                     console.log(data);
                     if(data.succ){
-                        console.log(data.succ)
-                        window.location.href=getRootPath_web()+"/index";
+                        console.log(data.succ);
+                        //window.location.href=getRootPath_web()+"/index";
+                        window.location.href="/index";
                     }
                     for (var e in data){
                         console.log(e,data[e])

@@ -5,10 +5,30 @@ from CMDB import models
 from CMDB import forms
 import json
 from django.shortcuts import render,redirect,HttpResponseRedirect
+from django.contrib.auth import authenticate,login,logout
+# from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from re import compile
+from django.views.decorators.csrf import csrf_exempt
+from django.views.decorators.csrf import requires_csrf_token
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 # Create your views here.
 #首页
+
 def index(request):
 
 
@@ -242,6 +262,7 @@ def bussiness_input(request):
 
 
 #业务线修改
+@requires_csrf_token
 def bussiness_change(request):
     if request.method == 'POST':
         jdata = request.POST.dict()
@@ -405,25 +426,53 @@ def sign_in(request):
 
 #登录
 
+# def login_view(request):
+#         if request.method == 'POST':
+#             print("111111",request.POST)
+#             username = request.POST.get('userName')
+#             password = request.POST.get('passWord')
+#             error_msg={}
+#             try:
+#                 user = models.UserInfo.objects.get(username=username)
+#                 print("USER",user)
+#                 if password != user.password:
+#                     error_msg['password']='密码错误'
+#                 else:
+#                     succ=json.dumps({'succ':'ok'})
+#                     return HttpResponse(succ)
+#             except:
+#                 error_msg['username']='用户不存在'
+#
+#             error_msg_dic = json.dumps(error_msg,ensure_ascii=False)
+#             print(error_msg_dic)
+#             return HttpResponse(error_msg_dic)
+#         return render(request,'login.html')
+# @requires_csrf_token
+
+
+@requires_csrf_token
 def login_view(request):
-    if request.method == 'POST':
-        print("111111",request.POST)
-        username = request.POST.get('userName')
-        password = request.POST.get('passWord')
+    if request.method=="POST":
+        username=request.POST.get("username")
+        password=request.POST.get("password")
+        user = authenticate(username=username,password=password)
         error_msg={}
-        try:
-            user = models.UserInfo.objects.get(username=username)
-            print("USER",user)
-            if password != user.password:
-                error_msg['password']='密码错误'
-            else:
+        EXEMPT_URLS = [compile(settings.LOGIN_URL)]
+        print("EXEMPT_URLS",EXEMPT_URLS)
+        print("PATH",request.path)
+        print("USER",user,type(user),user.id)
+        if user is not None:
+            if user.is_active:
+                login(request,user)
+                request.session['user'] = user.id
+                # request.set_cookie('user',user.id,3600)
                 succ=json.dumps({'succ':'ok'})
                 return HttpResponse(succ)
-        except:
-            error_msg['username']='用户不存在'
-
+            else:
+                error_msg['username']="用户被禁用"
+        else:
+            error_msg['username']="用户名或密码错误"
         error_msg_dic = json.dumps(error_msg,ensure_ascii=False)
-        print(error_msg_dic)
         return HttpResponse(error_msg_dic)
 
     return render(request,'login.html')

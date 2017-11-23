@@ -16,11 +16,13 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 from CMDB import views
+from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^data_input/', include("CMDB.urls")),
     url(r'^login', views.login_view),
+    url(r'login/', auth_views.login,{"template_name":"login.html"}),
     url(r'^sign_in', views.sign_in),
     url(r'^index',views.index),
     url(r'^$',views.login_view),

@@ -44,6 +44,7 @@
                             <div class="form-horizontal">
                                 <div class="form-group input1">
                                     <label for="name" class="col-sm-2 control-label">业务线</label>
+                                    <input class="hide" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                     <div class="col-sm-10">
                                         <input class="form-control" id="name" placeholder="业务线" type="text">
                                         <p class="alert_text"></p>
@@ -69,6 +70,7 @@
             type: "post",
             url: "bussiness_input.html",
             data: {
+                csrfmiddlewaretoken: $('#csrfmiddlewaretoken').val(),
                 name: $('#name').val()
             },
             datatype: 'json',

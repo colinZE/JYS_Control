@@ -44,10 +44,11 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'JYS_Control.middleware.LoginRequiredMiddleware',
 ]
 
 ROOT_URLCONF = 'JYS_Control.urls'
@@ -130,7 +131,10 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-
+LOGIN_URL = '/login/'
+LOGIN_EXEMPT_URLS = ()
+LOGIN_REDIRECT_URL = '/index'
+REDIRECT_FIELD_NAME = '/index'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (

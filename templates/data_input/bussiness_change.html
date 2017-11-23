@@ -44,6 +44,7 @@
                         <div class="form-horizontal">
                             <div class="form-group input1">
                                 <label for="name" class="col-sm-2 control-label">业务线</label>
+                                <input class="hide" id="csrfmiddlewaretoken" value="{{ csrf_token }}">
                                 <input class="hide" id="bussiness_id" value="{{ bussiness_read_info.id }}">
                                 <div class="col-sm-10">
                                     <input class="form-control" id="name" placeholder="业务线" type="text" value="{{ bussiness_read_info.name }}">
@@ -76,6 +77,7 @@
             type: 'post',
             url: 'bussiness_change.html',
             data: {
+                csrfmiddlewaretoken: $('#csrfmiddlewaretoken').val(),
                 id: $('#bussiness_id').val(),
                 name: $('#name').val(),
                 shanchu: "0"
@@ -107,6 +109,7 @@
                 type: "post",
                 url: "bussiness_change.html",
                 data: {
+                    csrfmiddlewaretoken: $('#csrfmiddlewaretoken').val(),
                     shanchu: "1",
                     id: $('#bussiness_id').val()
                 },
