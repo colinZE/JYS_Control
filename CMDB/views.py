@@ -11,6 +11,7 @@ from django.conf import settings
 from re import compile
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.csrf import requires_csrf_token
+from JYS_Control import pagination
 
 
 
@@ -302,7 +303,15 @@ def bussiness_change(request):
 
 #主机信息
 def server_info(request):
+    filter_name=None
+    filter_value=None
+    page = request.GET.get('page')
     server_info_obj=models.ServerInfo.objects.all()
+    pagination_val = pagination.Pagination.create_pagination(page=page,articles_list=server_info_obj)
+    print("fenye",pagination_val)
+    print("articles",pagination_val['articles'],type(pagination_val['articles']))
+    print("server_info",server_info_obj,type(server_info_obj))
+
     return render(request, 'data_input/server_info.html',{'server_info_obj':server_info_obj})
 
 #主机信息录入
