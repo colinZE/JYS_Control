@@ -305,14 +305,15 @@ def bussiness_change(request):
 def server_info(request):
     filter_name=None
     filter_value=None
-    page = request.GET.get('page')
+    page = request.GET.get('cur_page')
+    print("views",page)
     server_info_obj=models.ServerInfo.objects.all()
     pagination_val = pagination.Pagination.create_pagination(page=page,articles_list=server_info_obj)
     print("fenye",pagination_val)
     print("articles",pagination_val['articles'],type(pagination_val['articles']))
     print("server_info",server_info_obj,type(server_info_obj))
 
-    return render(request, 'data_input/server_info.html',{'server_info_obj':server_info_obj})
+    return render(request, 'data_input/server_info.html',{'server_info_obj':pagination_val['articles'],'pagination':pagination_val})
 
 #主机信息录入
 def server_input(request):

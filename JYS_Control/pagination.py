@@ -7,8 +7,8 @@ class Pagination(object):
         pass
 
     @classmethod
-    def create_pagination(self,articles_list,page="1",start_page_omit_symbol = '...',
-                          end_page_omit_symbol = '...',one_page_data_size=10,show_page_item_len=5):
+    def create_pagination(self,articles_list,page="",start_page_omit_symbol = '...',
+                          end_page_omit_symbol = '...',one_page_data_size=2,show_page_item_len=5):
         """
         :param from_name: 传入APP的models名
         :param model_name: 传入表名
@@ -34,7 +34,7 @@ class Pagination(object):
         #查询所需要的数据对象
 
         articles_list = models.ServerInfo.objects.all()
-
+        print("pagination",page)
         print("articles_list",articles_list,type(articles_list))
         #根据查询到的数据创建分页实例对象
         paginator = Paginator(articles_list, one_page_data_size)
