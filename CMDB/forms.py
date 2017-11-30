@@ -114,7 +114,10 @@ class asset_input(forms.Form):
         idc = cleaned_data.get('idc')
         cabinet_num = cleaned_data.get('cabinet_num')
         cabinet_order = cleaned_data.get('cabinet_order')
-        aa = models.asset.objects.filter(idc=idc,cabinet_num=cabinet_num,cabinet_order=cabinet_order)
+        try:
+            aa = models.asset.objects.filter(idc=idc,cabinet_num=cabinet_num,cabinet_order=cabinet_order)
+        except:
+            aa = None
         if aa:
             errors['cabinet_order'] = '该机柜位置已占用'
         if len(errors) != 0:

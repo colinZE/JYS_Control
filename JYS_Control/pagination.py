@@ -7,33 +7,19 @@ class Pagination(object):
         pass
 
     @classmethod
-    def create_pagination(self,articles_list,page="",start_page_omit_symbol = '...',
-                          end_page_omit_symbol = '...',one_page_data_size=2,show_page_item_len=5):
+    def create_pagination(self,articles_list,page="",one_page_data_size=2,show_page_item_len=5):
         """
-        :param from_name: 传入APP的models名
-        :param model_name: 传入表名
-        :param filter_name: 查询条件名
-        :param filter_value: 查询条件参数
         :param page: 当前页码
-        :param start_page_omit_symbol: 超出的页数使用怎样的省略号(前)
-        :param end_page_omit_symbol: 超出的页数使用怎样的省略号(后)
         :param one_page_data_size: 每一页显示几行
         :param show_page_item_len: 显示几个能点击的页数
         :return:
-            pagination: dict
-                    pagination = {
-                        'objs': objs, #需要显示的model数据
-                        'all_obj_counts': all_obj_counts, #一共多少行数据
-                        ''
-                    }
+
         """
 
-        # #导入models
-        # import_models = 'from {from_name} import {model_name}'.format(from_name=from_name,model_name=model_name)
-        # exec(import_models)
+
         #查询所需要的数据对象
 
-        articles_list = models.ServerInfo.objects.all()
+        # articles_list = models.ServerInfo.objects.all()
         print("pagination",page)
         print("articles_list",articles_list,type(articles_list))
         #根据查询到的数据创建分页实例对象
@@ -81,8 +67,8 @@ class Pagination(object):
             'current_page': current_page,
             'articles': articles,
             'page_all': all_page,
-            'start_page': start_page,
-            'end_page': end_page,
+            # 'start_page': start_page,
+            # 'end_page': end_page,
             'page_items': page_items,
         }
         return pagination_dic

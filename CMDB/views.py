@@ -41,6 +41,7 @@ def CMDB(request):
 
 
 def asset_info(request):
+    page = request.GET.get('cur_page')
     device_type_list=["","服务器","交换机","防火墙"]
     device_status_list=["","上架","在线","离线","下架"]
     asset_info_obj=models.asset.objects.all().values()
@@ -58,7 +59,10 @@ def asset_info(request):
         except:
             i['device_ip']=""
     print(asset_info_obj)
-    return render(request,'data_input/asset_info.html',{'asset_info_obj':asset_info_obj})
+    pagination_val = pagination.Pagination.create_pagination(page=page,articles_list=asset_info_obj)
+    print("fenye",pagination_val)
+    print("articles",pagination_val['articles'],type(pagination_val['articles']))
+    return render(request,'data_input/asset_info.html',{'asset_info_obj':pagination_val['articles'],'pagination':pagination_val})
 
 
 
@@ -75,6 +79,7 @@ def asset_input(request):
     #     return HttpResponse(bussiness_info_dic1)
     if request.method == 'POST':
         jdata=request.POST.dict()
+        print("JDATA",jdata)
         data = forms.asset_input(jdata)
         print("DATA",data)
         if data.is_valid():
@@ -303,8 +308,6 @@ def bussiness_change(request):
 
 #主机信息
 def server_info(request):
-    filter_name=None
-    filter_value=None
     page = request.GET.get('cur_page')
     print("views",page)
     server_info_obj=models.ServerInfo.objects.all()

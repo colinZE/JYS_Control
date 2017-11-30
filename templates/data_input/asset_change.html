@@ -233,7 +233,7 @@
             type: "post",
             url: "asset_change.html",
             data: {
-                csrfmiddlewaretoken: $('#csrfmiddlewaretoken').val(),
+                //csrfmiddlewaretoken: $('#csrfmiddlewaretoken').val(),
                 id: $('#asset_id').val(),
                 device_type_id: $('#device_type_id').val(),
                 device_status_id: $('#device_status_id').val(),
@@ -260,7 +260,7 @@
     });
 
     $('#delete').on("click",function(){
-        var msg = "确定要删除吗？"
+        var msg = "确定要删除吗？";
         if (confirm(msg) == true) {
             $.ajax({
                 type: "post",
