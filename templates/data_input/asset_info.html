@@ -60,7 +60,7 @@
                                     {% endif %}
                                     {% for page_item in pagination.page_items %}
                                         {% if page_item == pagination.current_page.number %}
-                                            <li><a href="?cur_page={{ page_item }}">{{ page_item }}</a></li>
+                                            <li><a href="?cur_page={{ page_item }}" style="background-color: #22A7F0">{{ page_item }}</a></li>
                                         {% else %}
                                             <li><a href="?cur_page={{ page_item }}">{{ page_item }}</a></li>
                                         {% endif %}

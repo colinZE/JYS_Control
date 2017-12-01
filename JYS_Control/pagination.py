@@ -7,7 +7,7 @@ class Pagination(object):
         pass
 
     @classmethod
-    def create_pagination(self,articles_list,page="",one_page_data_size=2,show_page_item_len=5):
+    def create_pagination(self,articles_list,page="",one_page_data_size=10,show_page_item_len=5):
         """
         :param page: 当前页码
         :param one_page_data_size: 每一页显示几行
@@ -41,7 +41,7 @@ class Pagination(object):
         print("page_all",all_page)
 
         #计算显示的最小页
-        page="1"
+
         # print("1/2",show_page_item_len/2,type(show_page_item_len/2),float(page),type(page))
         start_page = float(page) - show_page_item_len/2
         if start_page > all_page - show_page_item_len:
@@ -53,15 +53,19 @@ class Pagination(object):
 
         #计算显示的最大页
         end_page = float(page) + show_page_item_len/2
+        print("end_page1",end_page,"all_page",all_page)
         if end_page > all_page:
             end_page = all_page
         else:
             end_page=end_page
-        if end_page < show_page_item_len and all_page > show_page_item_len:
+        if end_page < show_page_item_len and all_page >= show_page_item_len:
             end_page = show_page_item_len
 
         #生成能点击的展示码
-        page_items = range(start_page,end_page + 1)
+        print("page_jisuan",start_page,end_page,int(end_page),"all_page",all_page,page)
+        page_items = range(start_page,int(end_page) + 1)
+        print("page_2222",start_page,int(end_page)+1)
+        print("range",range(1,5))
 
         pagination_dic = {
             'current_page': current_page,

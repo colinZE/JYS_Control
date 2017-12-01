@@ -42,6 +42,8 @@ def CMDB(request):
 
 def asset_info(request):
     page = request.GET.get('cur_page')
+    if not page:
+        page = "1"
     device_type_list=["","服务器","交换机","防火墙"]
     device_status_list=["","上架","在线","离线","下架"]
     asset_info_obj=models.asset.objects.all().values()
@@ -309,6 +311,8 @@ def bussiness_change(request):
 #主机信息
 def server_info(request):
     page = request.GET.get('cur_page')
+    if not page:
+        page="1"
     print("views",page)
     server_info_obj=models.ServerInfo.objects.all()
     pagination_val = pagination.Pagination.create_pagination(page=page,articles_list=server_info_obj)
