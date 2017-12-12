@@ -2,6 +2,7 @@
 __author__ = 'Administrator'
 from django import forms
 from CMDB import models
+from django.contrib.auth.models import User
 import os,django
 import re
 
@@ -14,30 +15,39 @@ django.setup()
 
 
 class sign_in(forms.Form):
-    username = forms.CharField(max_length=20,error_messages={"required":"用户名不能为空","max_length":"用户名过长"})
+    username = forms.CharField(max_length=20,error_messages={"required":"账号不能为空","max_length":"账号过长"})
     password1 = forms.CharField(min_length=4,widget=forms.PasswordInput,error_messages={"required":'密码不能为空',"invalid":'密码格式错误',"min_length":'密码长度要大于4位'})
-    password2 = forms.CharField(min_length=4,widget=forms.PasswordInput,error_messages={"required":'密码不能为空',"invalid":'密码格式错误',"min_length":'密码长度要大于4位'})
+    password2 = forms.CharField(min_length=4,widget=forms.PasswordInput,error_messages={"required":'确认密码不能为空',"invalid":'密码格式错误',"min_length":'密码长度要大于4位'})
     department = forms.CharField(max_length=64,error_messages={"required":'部门不能为空',"max_length":'输入过长'})
     email = forms.EmailField(error_messages={"required":'邮箱不能为空',"invalid":'邮箱格式错误'})
     phone = forms.IntegerField(error_messages={"required":'手机号码不能为空'})
+    last_name = forms.CharField(max_length=20,error_messages={"required":"姓不能为空","max_length":"姓输入过长"})
+    first_name = forms.CharField(max_length=20,error_messages={"required":"名字不能为空","max_length":"名字输入过长"})
+    sex = forms.CharField(error_messages={"required":"请选择性别"})
 
     def clean(self):
-        # if self.is_valid():
+    #     # if self.is_valid():
             cleaned_data = self.cleaned_data
             errors = {}
             password1 = cleaned_data.get('password1')
             password2 = cleaned_data.get('password2')
             username = cleaned_data.get('username')
-            name = models.UserInfo.objects.filter(username=username)
-            if name:
+    #         name = models.UserInfo.objects.filter(username=username)
+            userfilter = User.objects.filter(username=username)
+            print("userfilter",userfilter)
+    #         if name:
+    #             errors['username'] = '用户名已存在'
+            if len(userfilter) > 0:
                 errors['username'] = '用户名已存在'
             mobile_value = str(cleaned_data.get('phone'))
             mobile_re = re.compile(r'^(13[0-9]|15[0-9]|17[678]|18[0-9]|14[57])[0-9]{8}$')
-            if not mobile_re.match(mobile_value):
+            print("mobile_val",mobile_value)
+            if mobile_value != "None" and not mobile_re.match(mobile_value):
                 errors['phone'] = '手机号码格式错误'
             if password2 != password1:
                 errors['password2'] = '二次输入密码不一致'
             if len(errors) != 0:
+                print("form_errors",errors)
                 raise forms.ValidationError(errors)
             return cleaned_data
 

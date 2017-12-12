@@ -3,9 +3,10 @@ from __future__ import unicode_literals
 from django.shortcuts import HttpResponse
 from CMDB import models
 from CMDB import forms
-import json
+import json,re
 from django.shortcuts import render,redirect,HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.models import User
 # from django.contrib.auth.decorators import login_required
 from django.conf import settings
 from re import compile
@@ -416,29 +417,33 @@ def sign_in(request):
         print("DATA111111",data)
         if data.is_valid():
             clean_data = data.clean()
-            clean_data['password']=clean_data['password2']
-            del(clean_data['password1'])
-            del(clean_data['password2'])
-            print('clean_data222222',clean_data)
-            user_obj = models.UserInfo(**clean_data)
-            user_obj.save()
+            print("CLEAN_DATA",clean_data)
+        #     clean_data['password']=clean_data['password2']
+        #     del(clean_data['password1'])
+        #     del(clean_data['password2'])
+        #     print('clean_data222222',clean_data)
+        #     user_obj = models.UserInfo(**clean_data)
+        #     user_obj.save()
             succ=json.dumps({'succ':'ok'})
             return HttpResponse(succ)
 
         else:
             err = data.errors
             print("TYPE",type(err))
-            print("error3333333",err)
-            error_msg={}
+            #print("error3333333",err)
+            error_msg=[]
+            error_msg1={}
+            A = []
             for i in err:
                 for j in err[i]:
-                    error_msg[i]=j
-                    print("JJJJJ",j,type(j))
-            print(error_msg)
-            error_msg_dic=json.dumps(error_msg,ensure_ascii=False)
+                    #error_msg[i]=j
+                    error_msg.append({i:j})
+                    #print("JJJJJ",j,type(j))
+
+            error_msg_dic=json.dumps(error_msg[0],ensure_ascii=False)
             print(type(error_msg_dic),"dict_error",error_msg_dic)
             return HttpResponse(error_msg_dic)
-    return render(request,'sign_in.html')
+    return render(request,'create-account.html')
 
 
 #登录
@@ -472,12 +477,13 @@ def login_view(request):
     if request.method=="POST":
         username=request.POST.get("username")
         password=request.POST.get("password")
-        user = authenticate(username=username,password=password)
         error_msg={}
+        user = authenticate(username=username,password=password)
+        print("USER",user)
         EXEMPT_URLS = [compile(settings.LOGIN_URL)]
         print("EXEMPT_URLS",EXEMPT_URLS)
         print("PATH",request.path)
-        print("USER",user,type(user),user.id)
+        # print("USER",user,type(user),user.id)
         if user is not None:
             if user.is_active:
                 login(request,user)
@@ -492,4 +498,10 @@ def login_view(request):
         error_msg_dic = json.dumps(error_msg,ensure_ascii=False)
         return HttpResponse(error_msg_dic)
 
-    return render(request,'login.html')
+    return render(request,'login-1.html')
+
+
+
+def logout_view(request):
+    logout(request)
+    return HttpResponseRedirect("/login")

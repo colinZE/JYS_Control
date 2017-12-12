@@ -22,9 +22,12 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^data_input/', include("CMDB.urls")),
     url(r'^login', views.login_view),
-    url(r'login/', auth_views.login,{"template_name":"login.html"}),
+    url(r'^logout', views.logout_view),
+    # url(r'login/', auth_views.login),
     url(r'^sign_in', views.sign_in),
     url(r'^index',views.index),
     url(r'^$',views.login_view),
 
 ]
+
+#,{"template_name":"login-1.html"}

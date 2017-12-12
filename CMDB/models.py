@@ -1,21 +1,19 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 
-class UserInfo(models.Model):
-    username = models.CharField('用户名',max_length=32,primary_key=True)
-    password = models.CharField('密码',max_length=32)
-    department = models.CharField('部门',max_length=100)
-    email = models.EmailField('邮箱',null=True)
-    phone = models.CharField('电话',max_length=11,null=True)
+class UserProfile(models.Model):
+    user=models.OneToOneField(User,unique=True,verbose_name=('用户'))
+    department=models.CharField(max_length=30)
     class Meta:
-        verbose_name="用户信息"
-        verbose_name_plural="用户信息"
+        verbose_name="用户扩展信息"
+        verbose_name_plural="用户扩展信息"
     def __str__(self):
-        return self.username
+        return self.user
 
 
 class BusinessUnit(models.Model):

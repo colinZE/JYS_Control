@@ -37,6 +37,14 @@
     <!--下面是登陆按钮,包括颜色控制-->
     <button type="button" style="width:280px;" class="btn btn-default d1" id="denglu">登 录</button>
     <br>
+    <div class="input-group pr d1">
+    </div>
+    <br>
+    <button type="button" style="width:280px;" class="btn btn-default d1" id="zhuce">注 册</button>
+    <br>
+
+
+
 
 </body>
 </html>
@@ -87,7 +95,7 @@
                         window.location.href="/index";
                     }
                     for (var e in data){
-                        console.log(e,data[e])
+                        console.log(e,data[e]);
                         $('#' + e).siblings('p').text(data[e]);
                         $('#' + e).siblings('p').removeClass('hide');
                     };
