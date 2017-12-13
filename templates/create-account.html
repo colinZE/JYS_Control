@@ -112,7 +112,7 @@
         var SEX = $("input[name='optionsRadios']:checked").val()
         $.ajax({
             type: "post",
-            url: "sign_in",
+            url: "/sign_in/",
             data: {
                 username: $('#username').val(),
                 password1: $('#password1').val(),

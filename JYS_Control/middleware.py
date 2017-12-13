@@ -11,7 +11,7 @@ except ImportError:
     MiddlewareMixin = object
 
 EXEMPT_URLS = [compile(settings.LOGIN_URL.lstrip('/'))]
-
+A=['/login/','/sign_in/']
 
 class LoginRequiredMiddleware(MiddlewareMixin):
     def process_request(self, request):
@@ -24,7 +24,7 @@ class LoginRequiredMiddleware(MiddlewareMixin):
             expire_time = None
         # print("time_now",time_now,type(time_now))
         # print("expire_time",expire_time,type(expire_time))
-        if request.path != '/login/':
+        if request.path not in A:
             try:
                 user = models.DjangoSession.objects.filter(session_key=sessionid)
             except:
