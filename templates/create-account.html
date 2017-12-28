@@ -41,8 +41,14 @@
 			            <input type="email" class="form-control" id="email" placeholder="">		            		            		            
 			          </div>
                       <div class="col-md-6">
-                        <label for="department" class="control-label">部门</label><p class="alert_text1"></p>
-                        <input type="text" class="form-control" id="department" placeholder="">
+                          <label for="department" class="control-label">部门</label><p class="alert_text1"></p>
+                          <!--<input type="text" class="form-control" id="department" placeholder="">-->
+                          <select name="department" id="department" class="form-control">
+                              <option  value="">请选择所属部门</option>
+                              {% for item in groups_info_obj %}
+                                  <option value="{{ item.id }}">{{ item.name }}</option>
+                              {% endfor %}
+                          </select>
                       </div>
 			        </div>			
 			        <div class="form-group">

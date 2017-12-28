@@ -418,6 +418,7 @@ def sign_in(request):
         if data.is_valid():
             clean_data = data.clean()
             print("CLEAN_DATA",clean_data)
+
         #     clean_data['password']=clean_data['password2']
         #     del(clean_data['password1'])
         #     del(clean_data['password2'])
@@ -443,7 +444,9 @@ def sign_in(request):
             error_msg_dic=json.dumps(error_msg[0],ensure_ascii=False)
             print(type(error_msg_dic),"dict_error",error_msg_dic)
             return HttpResponse(error_msg_dic)
-    return render(request,'create-account.html')
+    groups_info_obj = models.AuthGroup.objects.all().values()
+    print("groups_obj",groups_info_obj,type(groups_info_obj))
+    return render(request,'create-account.html',{"groups_info_obj":groups_info_obj})
 
 
 #登录

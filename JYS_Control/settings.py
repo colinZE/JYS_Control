@@ -127,14 +127,15 @@ USE_L10N = True
 
 USE_TZ = True
 
+AUTH_USER_MODEL = 'CMDB.UserInfo'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-LOGIN_URL = '/login/'
-LOGIN_EXEMPT_URLS = ()
-LOGIN_REDIRECT_URL = '/index'
-REDIRECT_FIELD_NAME = '/index'
+# LOGIN_URL = '/login/'
+# LOGIN_EXEMPT_URLS = ()
+# LOGIN_REDIRECT_URL = '/index'
+# REDIRECT_FIELD_NAME = '/index'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = (

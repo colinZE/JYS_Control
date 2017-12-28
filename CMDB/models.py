@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from django.db import models
-from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+# from django.contrib.auth.models import User
+from django.dispatch import receiver
+from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 
-
-class UserProfile(models.Model):
-    user=models.OneToOneField(User,unique=True,verbose_name=('用户'))
-    department=models.CharField(max_length=30)
+class UserInfo(AbstractUser):
+    username = models.CharField('用户名',max_length=32,unique=True)
+    password = models.CharField('密码',max_length=128)
+    department = models.CharField('部门',max_length=100)
+    # email = models.EmailField('邮箱',null=True)
+    phone = models.CharField('电话',max_length=11,null=True)
     class Meta:
-        verbose_name="用户扩展信息"
-        verbose_name_plural="用户扩展信息"
+        verbose_name="用户信息"
+        verbose_name_plural="用户信息"
     def __str__(self):
-        return self.user
+        return self.username
+
+
 
 
 class BusinessUnit(models.Model):
@@ -97,5 +104,13 @@ class DjangoSession(models.Model):
     class Meta:
         managed = False
         db_table = 'django_session'
+
+
+class AuthGroup(models.Model):
+    name = models.CharField(unique=True, max_length=80)
+
+    class Meta:
+        managed = False
+        db_table = 'auth_group'
 
 
