@@ -48,7 +48,12 @@ def asset_info(request):
     device_type_list=["","服务器","交换机","防火墙"]
     device_status_list=["","上架","在线","离线","下架"]
     asset_info_obj=models.asset.objects.all().values()
-    for i in asset_info_obj:
+
+    print("a1111111111111111111",asset_info_obj)
+    pagination_val = pagination.Pagination.create_pagination(page=page,articles_list=asset_info_obj)
+    print("fenye",pagination_val)
+    print("articles",pagination_val['articles'],type(pagination_val['articles']))
+    for i in pagination_val['articles']:
         i['device_type_id']=device_type_list[i['device_type_id']]
         i['device_status_id']=device_status_list[i['device_status_id']]
         idc_obj=models.DataCenter.objects.filter(id=i['idc_id']).values()[0]
@@ -61,10 +66,7 @@ def asset_info(request):
             i['device_ip']=server_obj['ip']
         except:
             i['device_ip']=""
-    print(asset_info_obj)
-    pagination_val = pagination.Pagination.create_pagination(page=page,articles_list=asset_info_obj)
-    print("fenye",pagination_val)
-    print("articles",pagination_val['articles'],type(pagination_val['articles']))
+    print("articles123",pagination_val['articles'],type(pagination_val['articles']))
     return render(request,'data_input/asset_info.html',{'asset_info_obj':pagination_val['articles'],'pagination':pagination_val})
 
 
